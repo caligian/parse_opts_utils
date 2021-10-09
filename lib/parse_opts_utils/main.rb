@@ -3,7 +3,7 @@
 require 'fileutils'
 
 # Output of all commands will be of the type Array unless mentioned otherwise
-module Main
+module POU
   class Utils
     class << self
       def apply(klass, method, args)
