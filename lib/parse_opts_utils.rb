@@ -5,5 +5,5 @@ require_relative "parse_opts_utils/main"
 
 module ParseOptsUtils
   class Error < StandardError; end
-  include Main
+  include POU
 end
