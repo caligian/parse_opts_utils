@@ -4,46 +4,6 @@ require 'fileutils'
 
 # Output of all commands will be of the type Array unless mentioned otherwise
 module POU
-  class Utils
-    def initialize(args_list, store_in)
-      @options = store_in
-      @args_list = args_list
-    end
-
-    def get_long_switch_name(a)
-      a.select { |e| e.is_a?(String) and e =~ /^--/ }
-        .dig(0)
-        .split(/=|\s+/)
-        .dig(0)
-        .sub(/^--/, '')
-        .gsub(/-+/, '_')
-    end
-
-    def add_arg(arg_list, parser)
-      pred = arg_list.pop
-      pred_args = pred[...-1]
-      pred = pred.shift
-
-      case pred
-      when Proc
-        parser.on(*arg_list) { |value| @options[get_long_switch_name(arg_list)] = pred.call(value, *pred_args) }
-      when :default
-        parser.on(*arg_list) { |value| @options[get_long_switch_name(arg_list)] = value }
-      else
-        raise Exception.new
-      end
-    end
-
-    def add_args(parser)
-      @args_list.map { |args| add_arg(args, parser) }
-    end
-
-    def apply(klass, method_name, args=[])
-      not args.is_a? Array and args = [args]
-      return [klass.method(method_name).to_proc, *args]
-    end
-  end
-
   class StringParam
     class << self
       # Just splits the string
