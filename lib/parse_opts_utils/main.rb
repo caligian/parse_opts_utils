@@ -6,12 +6,17 @@ require 'fileutils'
 module POU
   class Utils
     def initialize(args_list, store_in)
-      @options = store_in 
+      @options = store_in
       @args_list = args_list
     end
 
     def get_long_switch_name(a)
-      a.select { |e| e.is_a?(String) and e =~ /^--/ }.dig(0).sub(/^--/, '')
+      a.select { |e| e.is_a?(String) and e =~ /^--/ }
+        .dig(0)
+        .split(/=|\s+/)
+        .dig(0)
+        .sub(/^--/, '')
+        .gsub(/-+/, '_')
     end
 
     def add_arg(arg_list, parser)
